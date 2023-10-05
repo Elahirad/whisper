@@ -11,13 +11,17 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  email     String     @unique
-  name      String
-  username  String     @unique
-  chats     UserChat[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id             Int        @id @default(autoincrement())
+  email          String     @unique
+  name           String
+  username       String     @unique
+  password       String
+  chats          UserChat[]
+  profileImageId String?
+  images         Image[]
+  messages       Message[]
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
 }
 
 model UserChat {
@@ -32,10 +36,25 @@ model UserChat {
 model Chat {
   id        Int        @id @default(autoincrement())
   users     UserChat[]
+  messages  Message[]
   createdAt DateTime   @default(now())
   updateAt  DateTime   @updatedAt
 }
 
 model Image {
-  id String @id @default(uuid())
+  id       String @id @default(uuid())
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId Int
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    Int
+  text      String?
+  imageId   String?
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
