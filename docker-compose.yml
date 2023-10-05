@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  mysql_db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_HOST: localhost
+      MYSQL_ROOT_PASSWORD: Test1234
+      MYSQL_DATABASE: whisper
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: Admin1234
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./mysql_data:/var/lib/mysql
